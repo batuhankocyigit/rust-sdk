@@ -29,8 +29,8 @@ pub use miden_standards::errors::CodeBuilderError;
 use miden_standards::tx_script::SendNotesTransactionScriptError;
 use miden_tx::utils::HexParseError;
 use miden_tx::utils::serde::DeserializationError;
-pub use miden_tx::{AuthenticationError, TransactionExecutorError};
-use miden_tx::{DataStoreError, NoteCheckerError, TransactionProverError};
+pub use miden_tx::{AuthenticationError, NoteCheckerError, TransactionExecutorError};
+use miden_tx::{DataStoreError, TransactionProverError};
 use thiserror::Error;
 
 use crate::note::NoteScreenerError;
@@ -244,6 +244,8 @@ pub enum ClientError {
     /// `From<MyFeatureError> for ClientError` returning `Observer(Box::new(err))`.
     #[error(transparent)]
     Observer(Box<dyn core::error::Error + Send + Sync + 'static>),
+    #[error("expected note blocks to be screened before state sync update is built")]
+    UnscreenedNoteBlocks,
 }
 
 // OBSERVER FAN-OUT
